@@ -12,6 +12,18 @@ builder.Services.AddSwaggerGen();
 //Agrego el servicio que va a ser utilizado por el controlado
 builder.Services.AddScoped<IDepartamento, DepartamentoServices>();
 
+//Agrego los cores para el maneo de la API desde el front con diferente URL
+builder.Services.AddCors(options => {
+    options.AddPolicy("NuevaPolitica", app =>
+    {
+        app.AllowAnyOrigin()
+        .AllowAnyHeader()
+        .AllowAnyMethod();
+    });
+});
+
+
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -26,5 +38,7 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.UseCors("NuevaPolitica");
 
 app.Run();
